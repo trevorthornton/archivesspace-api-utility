@@ -49,9 +49,9 @@ Then use `get` or `post` to do what you need to do.
 
 ### get(path,params={},headers={})
 
-* path - See ArchivesSpace API documentation for available paths for GET
-* params - optional query params (to append to URL)
-* headers - optional HTTP Request headers
+* **path** - See [ArchivesSpace API documentation](http://archivesspace.github.io/archivesspace/doc/file.API.html) for available paths for GET
+* **params** - optional query params (to append to URL)
+* **headers** - optional HTTP Request headers
 
 Make a GET request:
 
@@ -77,9 +77,9 @@ JSON.parse(response.body)
 
 ### post(path,data,headers={})
 
-* path - See ArchivesSpace API documentation for available paths for POST
-* data - Data to be sent in request body. This will be sent as a JSON object (you can pass in a hash and it will be converted to JSON before the request is made). The content and validity of your post data is between you and ArchivesSpace - if there is a problem the API should return a response explaining what the problem was. A bit of guidance can be found by looking at the JSON schema documents [here](https://github.com/hudmol/archivesspace/tree/master/common/schemas).
-* headers - optional HTTP Request headers
+* **path** - See ArchivesSpace API documentation for available paths for POST
+* **data** - Data to be sent in request body. This will be sent as a JSON object (you can pass in a hash and it will be converted to JSON before the request is made). The content and validity of your post data is between you and ArchivesSpace - if there is a problem the API should return a response explaining what the problem was. A bit of guidance can be found by looking at the JSON schema documents [here](https://github.com/hudmol/archivesspace/tree/master/common/schemas).
+* **headers** - optional HTTP Request headers
 
 Just like `get`, `post` will return a NET::HTTPRequest object.
 
