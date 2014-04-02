@@ -4,7 +4,7 @@ A Ruby gem to facilitate interaction with the [ArchivesSpace](http://archivesspa
 
 For a more robust alternative, try Mark Cooper's [archivespace-client](https://github.com/mark-cooper/archivesspace-client]).
 
-Documentation on the ArchivesSpace API can be found at [http://archivesspace.github.io/archivesspace/doc/file.API.html].
+Documentation on the ArchivesSpace API can be found at http://archivesspace.github.io/archivesspace/doc/file.API.html.
 
 ## Installation
 
@@ -12,14 +12,10 @@ Add this line to your application's Gemfile:
 
     gem 'archivesspace-api-utility', :git => "https://github.com/trevorthornton/archivesspace-api-utility.git"
 
-And then execute:
+Then execute:
 
     bundle install
 
-Or pull the repository and install it yourself:
-
-    gem build archivesspace-api-utility.gemspec
-    gem install archivesspace-api-utility-VERSION.gem
 
 ## Configuration
 
