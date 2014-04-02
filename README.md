@@ -56,20 +56,23 @@ Then use `get` or `post` to do what you need to do.
 Make a GET request:
 
     response = a.get('/repositories')
-    => #<Net::HTTPOK 200 OK readbody=true>
 
-That returns a NET::HTTPResponse object. To get the response body (a JSON object):
+That returns a NET::HTTPResponse object:
+
+```
+#<Net::HTTPOK 200 OK readbody=true>
+```
+
+To get the response body (a JSON object) just do:
 
 ```
 response.body
- => "[{\"lock_version\":0,\"repo_code\":\"SCRC\",\"name\":\"Special Collections Research Center, North Carolina State University Libraries\",\"org_code\":\"SCRC\",\"parent_institution_name\":\"North Carolina State University Libraries\",\"url\":\"http://www.lib.ncsu.edu/scrc\",\"created_by\":\"admin\",\"last_modified_by\":\"admin\",\"create_time\":\"2014-03-17T13:13:12Z\",\"system_mtime\":\"2014-03-17T13:13:12Z\",\"user_mtime\":\"2014-03-17T13:13:12Z\",\"country\":\"US\",\"jsonmodel_type\":\"repository\",\"uri\":\"/repositories/2\",\"agent_representation\":{\"ref\":\"/agents/corporate_entities/1\"}}]\n"
  ```
 
 And if you want that as a hash just use Ruby's JSON library
 
 ```
 JSON.parse(response.body)
- => [{"lock_version"=>0, "repo_code"=>"SCRC", "name"=>"Special Collections Research Center, North Carolina State University Libraries", "org_code"=>"SCRC", "parent_institution_name"=>"North Carolina State University Libraries", "url"=>"http://www.lib.ncsu.edu/scrc", "created_by"=>"admin", "last_modified_by"=>"admin", "create_time"=>"2014-03-17T13:13:12Z", "system_mtime"=>"2014-03-17T13:13:12Z", "user_mtime"=>"2014-03-17T13:13:12Z", "country"=>"US", "jsonmodel_type"=>"repository", "uri"=>"/repositories/2", "agent_representation"=>{"ref"=>"/agents/corporate_entities/1"}}]
  ```
 
 ### post(path,data,headers={})
