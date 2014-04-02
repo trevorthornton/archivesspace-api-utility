@@ -33,19 +33,19 @@ This can be included in a script (after including ArchivesSpaceApiUtility), or, 
 
 ## Usage
 
-1. Include the module:
+Include the module:
 
 ```
-include ArchivesSpaceApiUtility
+Include ArchivesSpaceApiUtility
 ```
 
-2. Start a session:
+Start a session:
 
 ```
 a = ArchivesSpaceSession.new
 ```
 
-3. Use `get` or `post` to do what you need to do.
+Then use `get` or `post` to do what you need to do.
 
 ### get(path,params={},headers={})
 
