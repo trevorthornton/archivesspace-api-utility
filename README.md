@@ -39,7 +39,7 @@ ArchivesSpaceApiUtility.configure do |config|
 end
 ```
 
-THen modify the configuration variables as appropriate.
+Then modify the configuration variables as appropriate.
 
 ## Usage
 

@@ -5,8 +5,8 @@ require 'uri'
 require 'archivesspace-api-utility/configuration'
 
 module ArchivesSpaceApiUtility
-
-  class ASpaceConnection
+  
+  class ArchivesSpaceSession
 
     attr_reader :session_token, :base_uri
 

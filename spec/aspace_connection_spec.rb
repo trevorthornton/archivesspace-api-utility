@@ -1,15 +1,15 @@
 require "spec_helper"
 
 module ArchivesSpaceApiUtility
-  describe ASpaceConnection do
+  describe ArchivesSpaceSession do
     it "establishes a connection" do
-      a = ASpaceConnection.new
+      a = ArchivesSpaceSession.new
       expect(a.session_token).not_to be_nil
     end
 
 
     it "preforms a GET request" do
-      a = ASpaceConnection.new
+      a = ArchivesSpaceSession.new
       response = a.get('/repositories')
       expect(response.message).to eq('OK')
     end
