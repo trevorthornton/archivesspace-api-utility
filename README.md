@@ -25,9 +25,11 @@ Or pull the repository and install it yourself:
 
 ## Configuration
 
-This gem requires an instance of ArchivesSpace to be running on an accessible server, specified in the configuration:
+This gem requires an instance of ArchivesSpace to be running on an accessible server. To tell your Rails app where that is, create a file called `archivesspace_config.rb` in `/config/initializers` and put this in it:
 
 ```
+# Be sure to restart your server when you modify this file.
+
 ArchivesSpaceApiUtility.configure do |config|
   config.host = 'localhost'
   config.port = 8089
@@ -36,6 +38,8 @@ ArchivesSpaceApiUtility.configure do |config|
   config.https = false
 end
 ```
+
+THen modify the configuration variables as appropriate.
 
 ## Usage
 
