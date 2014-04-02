@@ -1,5 +1,3 @@
-**WORK IN PROGRES - DO NOT USE THIS YET**
-
 ## ArchivesSpace API Utility
 
 A Ruby gem to facilitate interaction with the [ArchivesSpace](http://archivesspace.org/) REST API. Provides basic functionality for establishing and maintaining a session and performing GET and POST operations (using Ruby's Net::HTTP library).
