@@ -57,7 +57,7 @@ Make a GET request:
 
     response = a.get('/repositories')
 
-That returns a NET::HTTPResponse object:
+That returns a [NET::HTTPResponse](http://www.ruby-doc.org/stdlib-2.1.1/libdoc/net/http/rdoc/Net/HTTPResponse.html) object:
 
 ```
 #<Net::HTTPOK 200 OK readbody=true>
@@ -81,7 +81,7 @@ JSON.parse(response.body)
 * **data** - Data to be sent in request body. This will be sent as a JSON object (you can pass in a hash and it will be converted to JSON before the request is made). The content and validity of your post data is between you and ArchivesSpace - if there is a problem the API should return a response explaining what the problem was. A bit of guidance can be found by looking at the JSON schema documents [here](https://github.com/hudmol/archivesspace/tree/master/common/schemas).
 * **headers** - optional HTTP Request headers
 
-Just like `get`, `post` will return a NET::HTTPRequest object.
+Just like `get`, `post` will return a [NET::HTTPResponse](http://www.ruby-doc.org/stdlib-2.1.1/libdoc/net/http/rdoc/Net/HTTPResponse.html) object.
 
 ## License
 
