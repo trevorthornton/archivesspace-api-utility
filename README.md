@@ -35,11 +35,15 @@ This can be included in a script (after including ArchivesSpaceApiUtility), or, 
 
 1. Include the module:
 
-    include ArchivesSpaceApiUtility
+```
+include ArchivesSpaceApiUtility
+```
 
 2. Start a session:
 
-    a = ArchivesSpaceSession.new
+```
+a = ArchivesSpaceSession.new
+```
 
 3. Use `get` or `post` to do what you need to do.
 
