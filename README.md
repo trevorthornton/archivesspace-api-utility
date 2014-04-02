@@ -1,8 +1,6 @@
 ## ArchivesSpace API Utility
 
-A Ruby gem to facilitate interaction with the [ArchivesSpace](http://archivesspace.org/) REST API. Provides basic functionality for establishing and maintaining a session and performing GET and POST operations (using Ruby's Net::HTTP library).
-
-For a more robust alternative, try Mark Cooper's [archivespace-client](https://github.com/mark-cooper/archivesspace-client]).
+A Ruby gem to facilitate interaction with the [ArchivesSpace](http://archivesspace.org/) REST API. Provides basic functionality for establishing and maintaining a session and performing GET and POST operations (using Ruby's Net::HTTP library). This gem works at a fairly low level and just makes it a bit easier to interact with the API in your Ruby code, but without a lot of abstraction. For a more robust alternative, you might try Mark Cooper's [archivespace-client](https://github.com/mark-cooper/archivesspace-client).
 
 Documentation on the ArchivesSpace API can be found at http://archivesspace.github.io/archivesspace/doc/file.API.html.
 
@@ -19,7 +17,7 @@ Then execute:
 
 ## Configuration
 
-This gem requires an instance of ArchivesSpace to be running on an accessible server, which can be configured as follows (modified as appropriate):
+This gem requires an instance of ArchivesSpace to be running on an accessible server, which can be configured like this (modified as appropriate):
 
 ```
 ArchivesSpaceApiUtility.configure do |config|
@@ -31,19 +29,19 @@ ArchivesSpaceApiUtility.configure do |config|
 end
 ```
 
-This can be included in a script (after including ArchivesSpaceApiUtility), or, in a Rails app, you can just create a file called `archivesspace_config.rb` in `/config/initializers` and put the configuration in there.
+This can be included in a script (after including ArchivesSpaceApiUtility), or, if you're working in Rails, you can just create a file called `archivesspace_config.rb` in `/config/initializers` and put the configuration in there.
 
 ## Usage
 
-Include the module:
+1. Include the module:
 
     include ArchivesSpaceApiUtility
 
-Eastablish a connection:
+2. Start a session:
 
     a = ArchivesSpaceSession.new
-    
-    => #<ArchivesSpaceApiUtility::ArchivesSpaceSession:0x0000010320a400 @session_token="f2a28285b4f94f341b833d405e4afb3d8aab4a8e9949516993db6b89bb5292c8", @auth_header={"X-ArchivesSpace-session"=>"f2a28285b4f94f341b833d405e4afb3d8aab4a8e9949516993db6b89bb5292c8"}>
+
+3. Use `get` or `post` to do what you need to do.
 
 ### get(path,params={},headers={})
 
