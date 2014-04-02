@@ -2,10 +2,59 @@
 
 ## ArchivesSpace API Utility
 
-A Ruby gem to facilitate interaction with the ArchivesSpace backend API. Provides basic functionality for establishing and maintaining a session and performing get and post operations using Ruby's Net::HTTP library.
+A Ruby gem to facilitate interaction with the [ArchivesSpace](http://archivesspace.org/) REST API. Provides basic functionality for establishing and maintaining a session and performing GET and POST operations (using Ruby's Net::HTTP library).
 
 For a more robust alternative, try Mark Cooper's [archivespace-client](https://github.com/mark-cooper/archivesspace-client]).
 
+Documentation on the ArchivesSpace API can be found at [http://archivesspace.github.io/archivesspace/doc/file.API.html].
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'archivesspace-api-utility', :git => "https://github.com/trevorthornton/archivesspace-api-utility.git"
+
+And then execute:
+
+    bundle install
+
+Or pull the repository and install it yourself:
+
+    gem build archivesspace-api-utility.gemspec
+    gem install archivesspace-api-utility-VERSION.gem
+
+## Configuration
+
+This gem requires an instance of ArchivesSpace to be running on an accessible server, specified in the configuration:
+
+```
+ArchivesSpaceApiUtility.configure do |config|
+  config.host = 'localhost'
+  config.port = 8089
+  config.username = 'admin'
+  config.password = 'admin'
+  config.https = false
+end
+```
+
 ## Usage
 
-Coming soon...
+Eastablish a connection:
+
+```
+```
+
+Make a GET request:
+
+```
+```
+
+Send data in a POST:
+
+```
+```
+
+
+## License
+
+See MIT-LICENSE
