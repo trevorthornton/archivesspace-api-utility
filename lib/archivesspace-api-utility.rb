@@ -54,7 +54,7 @@ module ArchivesSpaceApiUtility
       #   uri.path = path
       #   uri.query = params_to_query(params)
       #
-      # ... but it doesn't. Need to see if thins changes in future versions of ASpace.
+      # ... but it doesn't. Need to see if this changes in future versions of ASpace.
 
       uri = "#{base_uri}#{path}"
       if !params.empty?
@@ -77,11 +77,14 @@ module ArchivesSpaceApiUtility
     end
     
 
+    # Convert params hash to query string, to work around ASpace handling of multi-valued params
     def params_to_query(params)
       queries = []
       
       query_param = lambda do |k,v|
-        v = CGI.escape(v)
+        if v.kind_of? String
+          v = CGI.escape(v)
+        end
         return "#{k}=#{v}"
       end
 
@@ -95,7 +98,7 @@ module ArchivesSpaceApiUtility
           queries << query_param.call("#{k}",0)
         when TrueClass
           queries << query_param.call("#{k}",1)
-        when String
+        when String, Numeric
           queries << query_param.call("#{k}",v)
         when Array
           array_to_queries.call(k,v)
