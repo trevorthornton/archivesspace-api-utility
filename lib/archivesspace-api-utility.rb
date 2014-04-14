@@ -46,22 +46,10 @@ module ArchivesSpaceApiUtility
         path = '/' + path
       end
 
-      # NOTE: Ruby's URI module generates multi-valued query parameters in the form "key=value1&key=value2"
-      #   but the ASpace API only works if you send them like this: "key[]=value1&key[]=value2".
-      #   So ideally the next part would look like this:
-      #
-      #   uri = URI(base_uri)
-      #   uri.path = path
-      #   uri.query = params_to_query(params)
-      #
-      # ... but it doesn't. Need to see if this changes in future versions of ASpace.
+      uri = URI(base_uri)
+      uri.path = path
+      uri.query = URI.encode_www_form(fix_params(params))
 
-      uri = "#{base_uri}#{path}"
-      if !params.empty?
-        uri += "?#{params_to_query(params)}"
-      end
-      uri = URI(uri)
-      
       request = Net::HTTP::Get.new(uri)
       headers.merge!(@auth_header)
       headers.each { |k,v| request[k] = v }
@@ -70,46 +58,27 @@ module ArchivesSpaceApiUtility
       end
     end
 
-    def params_to_data(params)
-      data_params = []
-      params.each { |k,v| data_params << "#{k}=#{v}"}
-      data_params.join(' ')
+    
+    # The ArchivesSpace API is particular about how multi-valued parameters (arrays) are included in GET params
+    # This is cool: ?resolved[]=value1&resolved[]=value2
+    # This is not: ?resolved=value1&resolved=value2
+    # ...but that's how Ruby URI wants to do it, so we to trick it into doing it the other way.
+    # Check out find_opts in the ASpace frontend ApplicationController to see how they handle this for 'resolve' only
+    def fix_params(params)
+      query_params = {}
+      params.each do |k,v|
+        case v
+        when Array
+          query_params["#{k.to_s}[]"] = v
+        when Hash
+          query_params["#{k.to_s}[]"] = fix_params(v)
+        else
+          query_params[k.to_s] = v
+        end
+      end
+      query_params
     end
     
-
-    # Convert params hash to query string, to work around ASpace handling of multi-valued params
-    def params_to_query(params)
-      queries = []
-      
-      query_param = lambda do |k,v|
-        if v.kind_of? String
-          v = CGI.escape(v)
-        end
-        return "#{k}=#{v}"
-      end
-
-      array_to_queries = Proc.new do |k, array|
-        array.each { |v| queries << query_param.call("#{k}[]",v) }
-      end
-
-      key_value_to_queries = Proc.new do |k,v|
-        case v
-        when FalseClass
-          queries << query_param.call("#{k}",0)
-        when TrueClass
-          queries << query_param.call("#{k}",1)
-        when String, Numeric
-          queries << query_param.call("#{k}",v)
-        when Array
-          array_to_queries.call(k,v)
-        when Hash
-          v.each { |kk,vv| key_value_to_queries.call("#{k}[#{kk}]",vv)}
-        end
-      end
-
-      params.each { |k,v| key_value_to_queries.call(k,v) }
-      queries.join('&')
-    end
 
   end
 
