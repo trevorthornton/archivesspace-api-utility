@@ -71,7 +71,9 @@ module ArchivesSpaceApiUtility
         when Array
           query_params["#{k.to_s}[]"] = v
         when Hash
-          query_params["#{k.to_s}[]"] = fix_params(v)
+          v.each do |kk,vv|
+            query_params["#{k.to_s}[#{kk.to_s}]"] = vv
+          end
         else
           query_params[k.to_s] = v
         end
