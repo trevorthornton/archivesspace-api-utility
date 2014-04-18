@@ -10,8 +10,13 @@ module ArchivesSpaceApiUtility
 
     attr_reader :session_token, :base_uri
 
-    def initialize
-      connect
+    def initialize(options={})
+      if options[:session_token]
+        @session_token = options[:session_token]
+        @auth_header = { 'X-ArchivesSpace-session' => @session_token }
+      else
+        connect
+      end
     end
 
     def connect
