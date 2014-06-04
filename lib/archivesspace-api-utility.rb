@@ -35,7 +35,7 @@ module ArchivesSpaceApiUtility
       "#{schema}://#{ArchivesSpaceApiUtility.configuration.host}:#{ArchivesSpaceApiUtility.configuration.port}"
     end
 
-    def post(path,data,headers={})    
+    def post(path,data={},headers={})    
       if data.kind_of?(Hash)
         data = JSON.generate(data)
       end
@@ -62,7 +62,6 @@ module ArchivesSpaceApiUtility
         http.request(request)
       end
     end
-
     
     # The ArchivesSpace API is particular about how multi-valued parameters (arrays) are included in GET params
     # This is cool: ?resolved[]=value1&resolved[]=value2
