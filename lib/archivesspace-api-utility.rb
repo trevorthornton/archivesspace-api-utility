@@ -41,6 +41,7 @@ module ArchivesSpaceApiUtility
       end
       headers.merge!(@auth_header)
       Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
+        http.read_timeout = 120
         http.post(path, data, headers)
       end
     end
