@@ -11,7 +11,7 @@ module ArchivesSpaceApiUtility
     it "preforms a GET request" do
       a = ArchivesSpaceSession.new
       response = a.get('/repositories')
-      expect(response.message).to eq('OK')
+      expect(response.code).to eq('200')
     end
 
     # TO DO - How to test a POST without actually posting to ArchivesSpace?
