@@ -29,7 +29,7 @@ ArchivesSpaceApiUtility.configure do |config|
 end
 ```
 
-This can be included in a script (after including ArchivesSpaceApiUtility), or, if you're working in Rails, you can just create a file called `archivesspace_config.rb` in `/config/initializers` and put the configuration in there. You can configure the pluging to use ENV vars this way:
+This can be included in a script (after including ArchivesSpaceApiUtility), or, if you're working in Rails, you can just create a file called `archivesspace_config.rb` in `/config/initializers` and put the configuration in there. You can configure the gem to use ENV vars this way:
 
 ```
 ArchivesSpaceApiUtility.configure do |config|
@@ -46,7 +46,6 @@ Then specify environemnt-specific options in application.yml, for example:
 ```
 defaults: &defaults
   
-
 development:
   <<: *defaults   
   archivesspace_host: localhost
