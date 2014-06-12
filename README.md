@@ -29,7 +29,42 @@ ArchivesSpaceApiUtility.configure do |config|
 end
 ```
 
-This can be included in a script (after including ArchivesSpaceApiUtility), or, if you're working in Rails, you can just create a file called `archivesspace_config.rb` in `/config/initializers` and put the configuration in there.
+This can be included in a script (after including ArchivesSpaceApiUtility), or, if you're working in Rails, you can just create a file called `archivesspace_config.rb` in `/config/initializers` and put the configuration in there. You can configure the pluging to use ENV vars this way:
+
+```
+ArchivesSpaceApiUtility.configure do |config|
+  config.host = ENV['archivesspace_host']
+  config.port = ENV['archivesspace_port'].to_i
+  config.username = ENV['archivesspace_username']
+  config.password = ENV['archivesspace_password']
+  config.https = ENV['archivesspace_https']
+end
+```
+
+Then specify environemnt-specific options in application.yml, for example:
+
+```
+defaults: &defaults
+  
+
+development:
+  <<: *defaults   
+  archivesspace_host: localhost
+  archivesspace_port: '8089'
+  archivesspace_username: admin
+  archivesspace_password: admin
+  archivesspace_https: false
+
+production:
+  <<: *defaults
+  archivesspace_host: your.production.host.org
+  archivesspace_port: '8089'
+  archivesspace_username: admin
+  archivesspace_password: admin
+  archivesspace_https: false
+
+```
+
 
 ## Usage
 
