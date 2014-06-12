@@ -85,7 +85,6 @@ module ArchivesSpaceApiUtility
       end
       query_params
     end
-    
 
   end
 

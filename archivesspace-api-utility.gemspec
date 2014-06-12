@@ -2,6 +2,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
 require "archivesspace-api-utility/version"
+require "archivesspace-api-utility/helpers"
 
 Gem::Specification.new do |s|
   s.name        = 'archivesspace-api-utility'
