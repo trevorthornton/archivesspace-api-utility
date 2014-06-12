@@ -73,13 +73,13 @@ Include the module:
 Include ArchivesSpaceApiUtility
 ```
 
-Start a session:
+Start a session (aasigned to a variable for re-use):
 
 ```
-a = ArchivesSpaceSession.new
+session = ArchivesSpaceSession.new
 ```
 
-Then use `get` or `post` to do what you need to do.
+Then use `get` or `post` to do what you need to do...
 
 ### get(*path,params={},headers={}*)
 
@@ -89,7 +89,7 @@ Then use `get` or `post` to do what you need to do.
 
 Make a GET request:
 
-    response = a.get('/repositories')
+    response = session.get('/repositories')
 
 That returns a [NET::HTTPResponse](http://www.ruby-doc.org/stdlib-2.1.1/libdoc/net/http/rdoc/Net/HTTPResponse.html) object:
 
