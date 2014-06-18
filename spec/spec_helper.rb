@@ -8,4 +8,7 @@ require 'uri'
 
 RSpec.configure do |config|
   # some (optional) config here
+  ARCHIVESSPACE_TEST_PATHS = {
+    resource: '/repositories/2/resources/1315'
+  }
 end

@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
     'http://github.com/trevorthornton/archivesspace-api-utility'
   s.license       = 'MIT'
 
+  s.add_dependency "typhoeus"
   s.add_development_dependency "bundler", "~> 1.5"
   s.add_development_dependency "rspec"
 end

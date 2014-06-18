@@ -1,6 +1,7 @@
 require 'net/http'
 require 'json'
 require 'uri'
+require 'typhoeus'
 
 require 'archivesspace-api-utility/configuration'
 
@@ -20,8 +21,8 @@ module ArchivesSpaceApiUtility
     end
 
     def connect
-      uri = URI("#{base_uri}/users/#{ArchivesSpaceApiUtility.configuration.username}/login")
-      response = Net::HTTP.post_form(uri, 'password' => ArchivesSpaceApiUtility.configuration.password)
+      response = request_response("#{base_uri}/users/#{ArchivesSpaceApiUtility.configuration.username}/login",
+        method: :post, body: { password: ArchivesSpaceApiUtility.configuration.password })
       @session_token = JSON.parse(response.body)['session']
       @auth_header = { 'X-ArchivesSpace-session' => @session_token }
     end
@@ -40,53 +41,28 @@ module ArchivesSpaceApiUtility
         data = JSON.generate(data)
       end
       headers.merge!(@auth_header)
-      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
-        http.read_timeout = 120
-        http.post(path, data, headers)
-      end
+      response = request_response("#{base_uri}#{verify_path(path)}", method: :post, body: data, headers: headers)
     end
 
     def get(path,params={},headers={})
-      # verify that path starts with /
-      if !path.match(/^\//)
-        path = '/' + path
-      end
-
-      uri = URI(base_uri)
-      uri.path = path
-      uri.query = URI.encode_www_form(fix_params(params))
-
-      request = Net::HTTP::Get.new(uri)
       headers.merge!(@auth_header)
-      headers.each { |k,v| request[k] = v }
-      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
-        http.request(request)
-      end
+      request_response("#{base_uri}#{verify_path(path)}", method: :get, params: params, headers: headers)
     end
-    
-    # The ArchivesSpace API is particular about how multi-valued parameters (arrays) are included in GET params
-    # This is cool: ?resolved[]=value1&resolved[]=value2
-    # This is not: ?resolved=value1&resolved=value2
-    # ...but that's how Ruby URI wants to do it, so we to trick it into doing it the other way.
-    # Check out find_opts in the ASpace frontend ApplicationController to see how they handle this for 'resolve' only
-    def fix_params(params)
-      query_params = {}
-      params.each do |k,v|
-        case v
-        when Array
-          query_params["#{k.to_s}[]"] = v
-        when Hash
-          v.each do |kk,vv|
-            query_params["#{k.to_s}[#{kk.to_s}]"] = vv
-          end
-        else
-          query_params[k.to_s] = v
-        end
+
+    # verify that path starts with / and fix if it doesn't
+    def verify_path(path)
+      if !path.match(/^\//)
+        path.prepend '/'
       end
-      query_params
+      path
+    end
+
+    def request_response(url, options={})
+      request = Typhoeus::Request.new(url, options)
+      request.run
+      request.response
     end
 
   end
-
 
 end
