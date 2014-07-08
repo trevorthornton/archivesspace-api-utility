@@ -20,6 +20,11 @@ module ArchivesSpaceApiUtility::Helpers
     uri_split = uri.gsub(/\/repositories\//,'').split('/')
     uri_split[1] == 'archival_objects' ? uri_split[2].to_i : nil
   end
+
+  def digital_object_id_from_uri(uri)
+    uri_split = uri.gsub(/\/repositories\//,'').split('/')
+    uri_split[1] == 'digital_objects' ? uri_split[2].to_i : nil
+  end
   
   def resource_path_from_uri(uri)
     uri.gsub(/\/repositories\/\d+/,'')
