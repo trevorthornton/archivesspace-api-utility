@@ -5,7 +5,7 @@ require 'uri'
 require 'archivesspace-api-utility/configuration'
 
 module ArchivesSpaceApiUtility
-  
+
   class ArchivesSpaceSession
 
     attr_reader :session_token, :base_uri
@@ -35,10 +35,15 @@ module ArchivesSpaceApiUtility
       "#{schema}://#{ArchivesSpaceApiUtility.configuration.host}:#{ArchivesSpaceApiUtility.configuration.port}"
     end
 
-    def post(path,data={},headers={})    
+    def post(path,data={},headers={})
       if data.kind_of?(Hash)
         data = JSON.generate(data)
       end
+
+      # % needs to be replaced with entities or else the post will fail
+      # anything that look like a real JS escapes will not be replaced
+      data.gsub!(/\%(?![A-Za-z\d]{2})/, '&#37;')
+
       headers.merge!(@auth_header)
       Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
         http.read_timeout = 120
@@ -63,7 +68,7 @@ module ArchivesSpaceApiUtility
         http.request(request)
       end
     end
-    
+
     # The ArchivesSpace API is particular about how multi-valued parameters (arrays) are included in GET params
     # This is cool: ?resolved[]=value1&resolved[]=value2
     # This is not: ?resolved=value1&resolved=value2
