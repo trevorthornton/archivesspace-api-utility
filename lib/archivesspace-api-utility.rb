@@ -69,6 +69,24 @@ module ArchivesSpaceApiUtility
       end
     end
 
+    def delete(path,params={},headers={})
+      # verify that path starts with /
+      if !path.match(/^\//)
+        path = '/' + path
+      end
+
+      uri = URI(base_uri)
+      uri.path = path
+      uri.query = URI.encode_www_form(fix_params(params))
+
+      request = Net::HTTP::Delete.new(uri)
+      headers.merge!(@auth_header)
+      headers.each { |k,v| request[k] = v }
+      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
+        http.request(request)
+      end
+    end
+
     # The ArchivesSpace API is particular about how multi-valued parameters (arrays) are included in GET params
     # This is cool: ?resolved[]=value1&resolved[]=value2
     # This is not: ?resolved=value1&resolved=value2
