@@ -20,7 +20,6 @@ module ArchivesSpaceApiUtility
     end
 
     def connect
-      puts "ArchivesSpace baseURI: #{ base_uri }"
       uri = URI("#{base_uri}/users/#{ArchivesSpaceApiUtility.configuration.username}/login")
 
       response = Net::HTTP.post_form(uri, 'password' => ArchivesSpaceApiUtility.configuration.password)
