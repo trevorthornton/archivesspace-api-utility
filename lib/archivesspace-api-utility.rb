@@ -17,6 +17,7 @@ module ArchivesSpaceApiUtility
       else
         connect
       end
+      @read_timeout = options[:read_timeout] || 120
     end
 
     def connect
@@ -47,7 +48,7 @@ module ArchivesSpaceApiUtility
 
       headers.merge!(@auth_header)
       Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
-        http.read_timeout = 120
+        http.read_timeout = @read_timeout
         http.post(path, data, headers)
       end
     end
@@ -66,6 +67,7 @@ module ArchivesSpaceApiUtility
       headers.merge!(@auth_header)
       headers.each { |k,v| request[k] = v }
       Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
+        http.read_timeout = @read_timeout
         http.request(request)
       end
     end
@@ -84,6 +86,7 @@ module ArchivesSpaceApiUtility
       headers.merge!(@auth_header)
       headers.each { |k,v| request[k] = v }
       Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
+        http.read_timeout = @read_timeout
         http.request(request)
       end
     end
