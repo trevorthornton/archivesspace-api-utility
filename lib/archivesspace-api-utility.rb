@@ -34,7 +34,11 @@ module ArchivesSpaceApiUtility
 
     def base_uri
       schema = ArchivesSpaceApiUtility.configuration.https ? 'https' : 'http'
-      "#{schema}://#{ArchivesSpaceApiUtility.configuration.host}:#{ArchivesSpaceApiUtility.configuration.port}"
+      uri = "#{schema}://#{ArchivesSpaceApiUtility.configuration.host}"
+      if ArchivesSpaceApiUtility.configuration.port
+        uri += ":#{ArchivesSpaceApiUtility.configuration.port}"
+      end
+      uri
     end
 
     def post(path,data={},headers={})

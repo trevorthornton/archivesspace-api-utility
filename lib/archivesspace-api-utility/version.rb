@@ -1,3 +1,3 @@
 module ArchivesSpaceApiUtility
-  VERSION = "0.0.6.3"
+  VERSION = "0.0.6.4"
 end
