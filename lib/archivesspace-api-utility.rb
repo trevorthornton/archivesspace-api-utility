@@ -14,6 +14,7 @@ module ArchivesSpaceApiUtility
       if options[:session_token]
         @session_token = options[:session_token]
         @auth_header = { 'X-ArchivesSpace-session' => @session_token }
+        @base_uri = base_uri
       else
         connect
       end
@@ -21,9 +22,11 @@ module ArchivesSpaceApiUtility
     end
 
     def connect
-      uri = URI("#{base_uri}/users/#{ArchivesSpaceApiUtility.configuration.username}/login")
+      @base_uri = base_uri
+      uri = URI("#{@base_uri}/users/#{ArchivesSpaceApiUtility.configuration.username}/login")
 
-      response = Net::HTTP.post_form(uri, 'password' => ArchivesSpaceApiUtility.configuration.password)
+      response = Net::HTTP.post_form(uri,
+          'password' => ArchivesSpaceApiUtility.configuration.password)
       @session_token = JSON.parse(response.body)['session']
       @auth_header = { 'X-ArchivesSpace-session' => @session_token }
     end
@@ -51,7 +54,9 @@ module ArchivesSpaceApiUtility
       data.gsub!(/\%(?![A-Za-z\d]{2})/, '&#37;')
 
       headers.merge!(@auth_header)
-      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
+      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host,
+          ArchivesSpaceApiUtility.configuration.port,
+          use_ssl: ArchivesSpaceApiUtility.configuration.https) do |http|
         http.read_timeout = @read_timeout
         http.post(path, data, headers)
       end
@@ -70,7 +75,9 @@ module ArchivesSpaceApiUtility
       request = Net::HTTP::Get.new(uri)
       headers.merge!(@auth_header)
       headers.each { |k,v| request[k] = v }
-      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
+      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host,
+          ArchivesSpaceApiUtility.configuration.port,
+          use_ssl: ArchivesSpaceApiUtility.configuration.https) do |http|
         http.read_timeout = @read_timeout
         http.request(request)
       end
@@ -89,17 +96,22 @@ module ArchivesSpaceApiUtility
       request = Net::HTTP::Delete.new(uri)
       headers.merge!(@auth_header)
       headers.each { |k,v| request[k] = v }
-      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host, ArchivesSpaceApiUtility.configuration.port) do |http|
+      Net::HTTP.start(ArchivesSpaceApiUtility.configuration.host,
+          ArchivesSpaceApiUtility.configuration.port,
+          use_ssl: ArchivesSpaceApiUtility.configuration.https) do |http|
         http.read_timeout = @read_timeout
         http.request(request)
       end
     end
 
-    # The ArchivesSpace API is particular about how multi-valued parameters (arrays) are included in GET params
+    # The ArchivesSpace API is particular about how multi-valued
+    #    parameters (arrays) are included in GET params
     # This is cool: ?resolved[]=value1&resolved[]=value2
     # This is not: ?resolved=value1&resolved=value2
-    # ...but that's how Ruby URI wants to do it, so we to trick it into doing it the other way.
-    # Check out find_opts in the ASpace frontend ApplicationController to see how they handle this for 'resolve' only
+    # ...but that's how Ruby URI wants to do it, so we to trick it into doing
+    #    it the other way.
+    # Check out find_opts in the ASpace frontend ApplicationController to see
+    #    how they handle this for 'resolve' only
     def fix_params(params)
       query_params = {}
       params.each do |k,v|
