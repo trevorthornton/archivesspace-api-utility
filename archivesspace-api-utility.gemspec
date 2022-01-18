@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
     'http://github.com/trevorthornton/archivesspace-api-utility'
   s.license       = 'MIT'
 
-  s.add_development_dependency "bundler", "~> 1.5"
+  s.add_development_dependency "bundler", "~> 2.1.0"
   s.add_development_dependency "rspec"
 end
